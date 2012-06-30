@@ -11,8 +11,12 @@
     <releaseNotes>Initial release, with support for inactivity and AC power events.</releaseNotes>
     <copyright>Copyright 2012</copyright>
     <tags>Mayhem</tags>
+    <dependencies>
+      <dependency id="MayhemCore" version="1.0" />
+      <dependency id="MayhemWpf" version="1.0" />
+    </dependencies>
   </metadata>
   <files>
-    <file src="lib\*.dll" target="lib\" />
+    <file src="lib\SystemMayhem.dll" target="lib\net40\" />
   </files>
 </package>

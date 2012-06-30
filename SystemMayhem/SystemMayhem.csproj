@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DebugModules">
-      <HintPath>..\packages\DebugModules.1.0.2\lib\net40\DebugModules.dll</HintPath>
-    </Reference>
     <Reference Include="MayhemCore">
       <HintPath>..\packages\MayhemCore.1.0.0\lib\net40\MayhemCore.dll</HintPath>
     </Reference>

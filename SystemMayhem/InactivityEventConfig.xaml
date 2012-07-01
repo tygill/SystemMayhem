@@ -4,11 +4,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:src="clr-namespace:MayhemWpf.UserControls;assembly=MayhemWpf"
-        Height="52" Width="240">
+        Height="87" Width="240">
     <Grid>
         <Label Content="On" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="36,14,0,0" Name="inactivityThreshold" VerticalAlignment="Top" Width="40" TextChanged="inactivityThreshold_TextChanged" />
         <Label Content="of inactivity" Height="28" HorizontalAlignment="Right" Margin="0,12,11,0" Name="label2" VerticalAlignment="Top" />
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="82,14,0,0" Name="units" VerticalAlignment="Top" Width="78" SelectionChanged="units_SelectionChanged" />
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,52,0,0" Name="triggerWhen" VerticalAlignment="Top" Width="216" SelectionChanged="triggerWhen_SelectionChanged">
+            <ComboBoxItem Content="Trigger when user leaves" />
+            <ComboBoxItem Content="Trigger when user returns" />
+        </ComboBox>
     </Grid>
 </src:WpfConfiguration>

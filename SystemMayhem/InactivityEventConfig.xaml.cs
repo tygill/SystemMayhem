@@ -20,16 +20,19 @@ namespace SystemMayhem {
     /// Interaction logic for InactivityEventControl.xaml
     /// </summary>
     public partial class InactivityEventConfig : WpfConfiguration {
-        public InactivityEventConfig(uint threshold, InactivityEvent.Unit unit) {
+        public InactivityEventConfig(uint threshold, InactivityEvent.Unit unit, bool triggerOnLeave) {
             InitializeComponent();
             
             Threshold = threshold;
             ThresholdUnit = unit;
+            TriggerOnLeave = triggerOnLeave;
         }
 
         public uint Threshold { get; private set; }
 
         public InactivityEvent.Unit ThresholdUnit { get; private set; }
+
+        public bool TriggerOnLeave { get; private set; }
 
         public override void OnLoad() {
             inactivityThreshold.Text = GetThresholdDisplay();
@@ -41,6 +44,7 @@ namespace SystemMayhem {
             units.Items.Add("hours");
             // Not 100% safe, but here I trust the conversion as I control the enums definition
             units.SelectedIndex = (int)ThresholdUnit;
+            triggerWhen.SelectedIndex = TriggerOnLeave ? 0 : 1;
         }
 
         public override string Title {
@@ -58,6 +62,10 @@ namespace SystemMayhem {
 
         private void units_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             update();
+        }
+
+        private void triggerWhen_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            TriggerOnLeave = triggerWhen.SelectedIndex == 0;
         }
 
         private void update() {

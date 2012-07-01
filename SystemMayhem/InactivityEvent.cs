@@ -30,6 +30,9 @@ namespace SystemMayhem {
         [DataMember]
         private Unit InactivityUnit;
 
+        [DataMember]
+        private bool TriggerOnLeave;
+
         private bool Enabled;
 
         private bool Done;
@@ -43,6 +46,7 @@ namespace SystemMayhem {
 
             InactivityThreshold = 5000;
             InactivityUnit = Unit.Second;
+            TriggerOnLeave = true;
         }
 
         protected override void OnLoadFromSaved() {
@@ -112,7 +116,7 @@ namespace SystemMayhem {
             get {
                 InactivityEventConfig config;
                 lock (Lock) {
-                    config = new InactivityEventConfig(InactivityThreshold, InactivityUnit);
+                    config = new InactivityEventConfig(InactivityThreshold, InactivityUnit, TriggerOnLeave);
                 }
                 return config;
             }
@@ -123,6 +127,7 @@ namespace SystemMayhem {
             lock (Lock) {
                 InactivityThreshold = config.Threshold;
                 InactivityUnit = config.ThresholdUnit;
+                TriggerOnLeave = config.TriggerOnLeave;
             }
         }
 
@@ -151,6 +156,7 @@ namespace SystemMayhem {
 
             int pollingDelay = 1000;
             uint lastIdleTime = 0;
+            bool triggerOnReturn = false;
 
             bool done = false;
             while (!done) {
@@ -164,11 +170,23 @@ namespace SystemMayhem {
                         // If they reset during this last interval, reset the last idle time as well
                         if (inactiveTime < lastIdleTime) {
                             lastIdleTime = 0;
+                            // If we trigger on return instead of on leave,
+                            // then here's where someone is back.
+                            if (triggerOnReturn) {
+                                Trigger();
+                                triggerOnReturn = false;
+                            }
                         }
 
                         // Only the first time that the inactive time passes the threshold should it be triggered
                         if (lastIdleTime < InactivityThreshold && inactiveTime >= InactivityThreshold) {
-                            Trigger();
+                            if (TriggerOnLeave) {
+                                // Trigger only if we're triggering on leave
+                                Trigger();
+                            } else {
+                                // Otherwise, prep it for a trigger when we come back
+                                triggerOnReturn = true;
+                            }
                         }
 
                         lastIdleTime = inactiveTime;
